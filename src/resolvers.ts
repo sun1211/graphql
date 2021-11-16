@@ -5,6 +5,9 @@
 import { v4 } from "uuid";
 import { GqlContext } from "./GqlContext";
 import { todos } from "./db";
+// import { PubSub } from 'graphql-subscriptions';
+// const pubsub = new PubSub();
+
 
 interface User {
     id: string;
@@ -33,6 +36,7 @@ const resolvers = {
             return {
                 id: v4(),
                 username: "dave",
+                email: "dave@gmail.com"
             };
         },
         getTodos: async (
@@ -66,8 +70,9 @@ const resolvers = {
     },
     Subscription: {
         newTodo: {
-            subscribe: (parent : any, args: null, { pubsub }: GqlContext) =>
+            subscribe: (parent : any, args: null, { pubsub }: GqlContext) =>{
                 pubsub.asyncIterator(NEW_TODO)
+            }
         },
 
     },
